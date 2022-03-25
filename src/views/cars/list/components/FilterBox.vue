@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <h1>Add car</h1>
 
-    <div class="card col-6">
-      <div class="card-body">
+<div class="card mb-3">
+    <div class="card-body">
+<div class="row align-items-center">
+
+    <div class="col-2">
         <div class="form-group mb-3">
           <label for="carBrand">Car brand:</label>
           <select class="form-control" id="carbrand">
@@ -12,7 +13,9 @@
             <option value="BMW">BMW</option>
           </select>
         </div>
+    </div>
 
+    <div class="col-2">
         <div class="form-group mb-3">
           <label for="carModel">Car model:</label>
           <select class="form-control" id="carModel">
@@ -25,11 +28,17 @@
             <option value="Audi">A7</option>
           </select>
         </div>
+    </div>
+
+    <div class="col-2">
 
         <div class="form-group mb-3">
           <label for="places">Places</label>
           <input class="form-control" id="places" type="number" value="42" />
         </div>
+        </div>
+
+    <div class="col-2">
 
         <div class="form-group mb-3">
           <label for="fuelType">Fuel type</label>
@@ -40,11 +49,9 @@
             <option value="Audi">Hybrid</option>
           </select>
         </div>
-
-        <div class="form-group mb-3">
-          <label for="description">Description</label>
-          <textarea class="form-control" id="description">Description</textarea>
         </div>
+
+    <div class="col-2">
 
         <div class="form-group mb-3">
           <label for="transmission">Transmission</label>
@@ -53,21 +60,21 @@
             <option value="Audi">Manual</option>
           </select>
         </div>
+    </div>
 
-        <div class="form-group mb-3">
-          <label for="price">Price:</label>
-          <input class="form-control" id="price" type="number" step="0.01" value="0.00" placeholder="0.00"/>
+    <div class="col-2">
+
+<button class="btn btn-primary w-100">Search</button>
+</div>
+        </div>
+        </div>
         </div>
 
-        <input class="btn btn-primary" type="submit" value="Submit" />
-      </div>
-    </div>
-  </div>
 </template>
-<script>
+<script lang="js">
 export default{
-
-  name: 'add-car'
+    
+    name: 'filter-box'
 
 }
 </script>
