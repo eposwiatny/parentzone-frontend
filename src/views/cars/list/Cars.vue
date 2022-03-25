@@ -1,25 +1,32 @@
 <template>
 <div>
     <h1 class="mb-5">Cars list</h1>
-
     <FilterBox />
 
-    <div class="row">
+    <div v-if="loadingStatus === 'LOADING'" class="row">
+        <SkeletonCarCard v-for="(car, index) in 4" :key="index" />
+    </div>
+
+    <div v-if="loadingStatus === 'OK'" class="row">
     <CarCard v-for="(car, index) in cars" :car="car" :key="index" />
     </div>
+
 </div>
 </template>
 <script>
+import 'vue-skeletor/dist/vue-skeletor.css';
 import FilterBox from '@/views/cars/list/components/FilterBox.vue'
+import SkeletonCarCard from '@/views/cars/list/components/SkeletonCarCard.vue'
 import CarCard from '@/views/cars/list/components/CarCard.vue'
 export default{
 
     name: 'car-card',
 
-    components: { CarCard, FilterBox },
+    components: { CarCard, FilterBox, SkeletonCarCard },
 
     data(){
         return{
+            loadingStatus: 'LOADING',
             cars:[
                 {
                     id: 1,
@@ -83,6 +90,16 @@ export default{
                 }
             ]
         }
+    },
+    methods:{
+        loadData(){
+            setTimeout(() => {
+                this.loadingStatus = 'OK'
+            }, 2300);
+        }
+    },
+    mounted(){
+        this.loadData()
     }
 }
 </script>
