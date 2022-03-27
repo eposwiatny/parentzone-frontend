@@ -2,79 +2,72 @@
 
 <div class="card mb-3">
     <div class="card-body">
-<div class="row align-items-center">
+<div class="row align-items-end">
 
-    <div class="col-2">
-        <div class="form-group mb-3">
+    <div class="col-5">
+        <div class="form-group">
           <label for="carBrand">Car brand:</label>
-          <select class="form-control" id="carbrand">
-            <option value="Audi">Audi</option>
-            <option value="Mercedes">Merecdes-Benz</option>
-            <option value="BMW">BMW</option>
+          <select @change=loadData() v-model="selectedFilters.brand" class="form-control" id="carbrand">
+            <option value="all">All</option>
+            <option v-for="brand in filters.brands" :key="brand.id" :value="brand.name">{{brand.name}}</option>
           </select>
         </div>
     </div>
 
-    <div class="col-2">
-        <div class="form-group mb-3">
+    <div class="col-5">
+        <div class="form-group">
           <label for="carModel">Car model:</label>
-          <select class="form-control" id="carModel">
-            <option value="Audi">A1</option>
-            <option value="Audi">A2</option>
-            <option value="Audi">A3</option>
-            <option value="Audi">A4</option>
-            <option value="Audi">A5</option>
-            <option value="Audi">A6</option>
-            <option value="Audi">A7</option>
+          <select v-model="selectedFilters.model" class="form-control" id="carModel">
+            <option value="all">All</option>
+            <option v-for="model in filters.models" :key="model.id" :value="model.name">{{model.name}}</option>
           </select>
         </div>
     </div>
 
     <div class="col-2">
 
-        <div class="form-group mb-3">
-          <label for="places">Places</label>
-          <input class="form-control" id="places" type="number" value="42" />
-        </div>
-        </div>
-
-    <div class="col-2">
-
-        <div class="form-group mb-3">
-          <label for="fuelType">Fuel type</label>
-          <select class="form-control" id="fuelType">
-            <option value="Audi">Diesel</option>
-            <option value="Audi">Gasoil</option>
-            <option value="Audi">Electric</option>
-            <option value="Audi">Hybrid</option>
-          </select>
-        </div>
-        </div>
-
-    <div class="col-2">
-
-        <div class="form-group mb-3">
-          <label for="transmission">Transmission</label>
-          <select class="form-control" id="transmission">
-            <option value="Audi">Automamtic</option>
-            <option value="Audi">Manual</option>
-          </select>
-        </div>
-    </div>
-
-    <div class="col-2">
-
-<button class="btn btn-primary w-100">Search</button>
+<button @click=filterResults() class="btn btn-primary w-100">Search</button>
 </div>
         </div>
         </div>
         </div>
-
 </template>
 <script lang="js">
+import axios from 'axios'
 export default{
     
-    name: 'filter-box'
+    name: 'filter-box',
+
+    data(){
+      return{
+        selectedFilters:{
+          brand: 'all',
+          model: 'all',
+        },
+        filters: {
+          brands: [],
+          models: [],
+        }
+      }
+    },
+
+    methods:{
+      loadData(){
+        axios.get(`http://192.168.0.42:8000/api/filters?brand=${this.selectedFilters.brand}&model=${this.selectedFilters.model}`).then(response => {
+          this.filters.brands = response.data.brands;
+          this.filters.models = response.data.models;
+        })
+          this.selectedFilters.model = 'all'
+          this.$forceUpdate();
+      },
+      filterResults(){
+        this.$emit('updateResults', this.selectedFilters)
+      }
+    },
+
+    mounted(){
+      this.loadData();
+    }
 
 }
 </script>

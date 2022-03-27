@@ -6,11 +6,11 @@
 
                 <div class="row">
 
-                <div class="col-6">
+                <div class="col-12 col-lg-6 mb-4">
                     <img class="img-thumbnail" :src="car.img_url" alt="">
                 </div>
 
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                 <div class="mb-1"><span class="fw-bold">Brand: </span>{{car.car_model.car_brand.name}}</div>
                 <div class="mb-1"><span class="fw-bold">Model: </span>{{car.car_model.name}}</div>
                 <div class="mb-1"><span class="fw-bold">Places: </span>{{car.places}} places</div>
@@ -18,7 +18,7 @@
                 <div class="mb-1"><span class="fw-bold">Fuel type: </span>{{car.fuel_type}}</div>
                 <div class="mb-3"><span class="fw-bold">Price: </span>{{car.price}}/h</div>
                 <div class="mb-3"><span class="fw-bold">Description: </span>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo itaque non nulla vitae eveniet, blanditiis natus et omnis animi officia minus repellat. Minima aperiam corporis quaerat voluptas. Repellat, quaerat corrupti?</p>
+                <p>{{car.description}}</p>
                 </div>
                 </div>
 
@@ -26,16 +26,21 @@
 
                 <h1>Book</h1>
 
-                Calendar will goes here
+                <BookingForm />
 
             </div>
     </div>
 </template>
 <script lang="js">
 import axios from 'axios'
+import BookingForm from '@/views/cars/view/components/BookingForm.vue'
 export default{
 
     name: 'view-car',
+
+    components:{
+        BookingForm
+    },
 
     data(){
         return{
@@ -58,7 +63,7 @@ export default{
 
     methods:{
         loadData(){
-            axios.get('http://192.168.0.42:8000/api/cars/1').then( response => {
+            axios.get(`http://192.168.0.42:8000/api/cars/ ${this.$route.params.id}`).then( response => {
                 this.car = response.data.car
             })
         }
