@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1>Add car</h1>
-
+    <h2 v-if="submitStatus === 'OK'">Car added!</h2>
+    <h2 v-if="submitStatus === 'ERROR'">Oh no! Something goes wrong!</h2>
     <div class="card col-6">
       <div class="card-body">
         <form @submit.prevent="submitForm">
@@ -17,12 +18,12 @@
 
         <div class="form-group mb-3">
           <label for="newBrand">Add brand:</label>
-          <input v-model="car.newBrand" class="form-control" id="newBrand" type="text"/>
+          <input v-model="car.newBrand" :class="v$.car.brand.$error ? 'invalid-input' : ''" class="form-control" id="newBrand" type="text"/>
         </div>
 
         <div class="form-group mb-3">
           <label for="carModel">Car model:</label>
-          <select :disabled="!carParams.models.length || car.newBrand" v-model="car.model" class="form-control" :class="v$.car.model.$error ? 'invalid-input' : ''" id="carModel">
+          <select :disabled="!carParams.models.length || !car.newBrand == ''" v-model="car.model" class="form-control" :class="v$.car.model.$error ? 'invalid-input' : ''" id="carModel">
             <option v-for="model in carParams.models" :key="model.id" :value="model.name">{{model.name}}</option>
           </select>
           <div  v-if="v$.car.model.$error" class="invalid-feedback">Car model is required</div>
@@ -32,7 +33,7 @@
 
         <div class="form-group mb-3">
           <label for="newModel">Add Model:</label>
-          <input v-model="car.newModel" class="form-control" id="newModel" type="text"/>
+          <input v-model="car.newModel" :class="v$.car.model.$error ? 'invalid-input' : ''" class="form-control" id="newModel" type="text"/>
         </div>
 
 
@@ -65,7 +66,7 @@
             <option value="1">Automamtic</option>
             <option value="0">Manual</option>
           </select>
-          <div v-if="v$.car.description.$error" class="invalid-feedback">Transmission is required</div>
+          <div v-if="v$.car.transmission.$error" class="invalid-feedback">Transmission is required</div>
         </div>
 
         <div class="form-group mb-3">
@@ -81,8 +82,9 @@
   </div>
 </template>
 <script>
+
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, requiredIf } from '@vuelidate/validators'
 import axios from 'axios'
 export default{
 
@@ -90,8 +92,9 @@ export default{
 
   data(){
     return{
+      submitStatus: '',
       car:{
-        newBrand: null,
+        newBrand: '',
         newModel: '',
         brand: '',
         model: '',
@@ -111,8 +114,8 @@ export default{
     validations () {
     return {
       car: { 
-        brand: { required },
-        model: { required },
+        brand: { requiredIfFoo: requiredIf(this.car.newBrand == ''),},
+        model: { requiredIfFoo: requiredIf(this.car.newModel == ''),},
         places: { required },
         fuel_type: { required },
         description: { required },
@@ -131,6 +134,8 @@ export default{
         setTimeout(() => {
               this.submitStatus = 'OK'
         }, 700);
+      }).catch( () => {
+        this.submitStatus = 'ERROR'
       })
     },
     loadData(){
@@ -149,7 +154,7 @@ export default{
   watch:{
     'car.newBrand': function(){
       if(this.car.newBrand){
-        this.car.model = null
+        this.car.model = ''
       }
      }
   },
