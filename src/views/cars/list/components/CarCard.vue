@@ -3,7 +3,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-2">
-                    <img class="img-thumbnail" :src="car.img_url" alt="">
+                    <img v-if="car.img_url" class="img-thumbnail" :src="car.img_url" alt="">
+                    <img v-else class="img-thumbnail" src="https://image.shutterstock.com/image-vector/car-monochrome-icon-260nw-755763799.jpg" alt="">
                 </div>
                 <div class="mb-1"><span class="fw-bold">Brand: </span>{{car.car_model.car_brand.name}}</div>
                 <div class="mb-1"><span class="fw-bold">Model: </span>{{car.car_model.name}}</div>
