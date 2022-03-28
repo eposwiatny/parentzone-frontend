@@ -42,7 +42,7 @@ export default {
       this.loadingStatus = "LOADING";
       axios
         .get(
-          `http://192.168.0.42:8000/api/cars?brand=${this.selectedFilters.brand}&model=${this.selectedFilters.model}`
+          `http://parentback.poswiatny.com/api/cars?brand=${this.selectedFilters.brand}&model=${this.selectedFilters.model}`
         )
         .then((response) => {
           this.cars = response.data.cars;
@@ -70,23 +70,11 @@ export default {
         return this.cars;
       } else if (this.sortingType == "pdesc") {
         tmpCars.sort(function (x, y) {
-          if (x.price < y.price) {
-            return -1;
-          }
-          if (x.price > y.price) {
-            return 1;
-          }
-          return 0;
+          return x.price - y.price;
         });
       } else if (this.sortingType == "pasc") {
         tmpCars.sort(function (x, y) {
-          if (x.price > y.price) {
-            return -1;
-          }
-          if (x.price < y.price) {
-            return 1;
-          }
-          return 0;
+          return y.price - x.price;
         });
       } else if (this.sortingType == "za") {
         tmpCars.sort(function (x, y) {

@@ -48,7 +48,7 @@ export default{
 
     methods:{
       loadData(){
-        axios.get(`http://192.168.0.42:8000/api/filters?brand=${this.selectedFilters.brand}&model=${this.selectedFilters.model}`).then(response => {
+        axios.get(`http://parentback.poswiatny.com/api/filters?brand=${this.selectedFilters.brand}&model=${this.selectedFilters.model}`).then(response => {
           this.filters.brands = response.data.brands;
           this.filters.models = response.data.models;
         })

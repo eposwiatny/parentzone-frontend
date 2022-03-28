@@ -52,7 +52,7 @@ export default{
            return value ? 'Automatic' : 'Manual'
         },
         loadData(){
-            axios.get(`http://192.168.0.42:8000/api/cars/ ${this.$route.params.id}`).then( response => {
+            axios.get(`http://parentback.poswiatny.com/api/cars/ ${this.$route.params.id}`).then( response => {
                 this.car = response.data.car
             })
         }

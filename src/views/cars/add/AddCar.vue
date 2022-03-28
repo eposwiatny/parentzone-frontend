@@ -130,7 +130,7 @@ export default{
       const isFormCorrect = await this.v$.$validate()
       if (!isFormCorrect) return
       this.submitStatus = 'LOADING'
-        axios.post('http://192.168.0.42:8000/api/cars', this.car).then( () => {
+        axios.post('http://parentback.poswiatny.com /api/cars', this.car).then( () => {
         setTimeout(() => {
               this.submitStatus = 'OK'
         }, 700);
@@ -139,7 +139,7 @@ export default{
       })
     },
     loadData(){
-      axios.get(`http://192.168.0.42:8000/api/filters?brand=${this.car.brand}&model=${this.car.model}`).then(response => {
+      axios.get(`http://parentback.poswiatny.com/api/filters?brand=${this.car.brand}&model=${this.car.model}`).then(response => {
         this.carParams.brands = response.data.brands;
         this.carParams.models = response.data.models;
         if(response.data.models.length){
