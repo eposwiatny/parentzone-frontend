@@ -24,23 +24,16 @@
 
                 </div>
 
-                <h1>Book</h1>
-
-                <BookingForm />
 
             </div>
     </div>
 </template>
 <script lang="js">
 import axios from 'axios'
-import BookingForm from '@/views/cars/view/components/BookingForm.vue'
 export default{
 
     name: 'view-car',
 
-    components:{
-        BookingForm
-    },
 
     data(){
         return{
